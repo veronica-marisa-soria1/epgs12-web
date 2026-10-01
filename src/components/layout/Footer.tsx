@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import { Mail, Phone, MapPin, Facebook, Instagram } from "lucide-react";
-import { siteConfig, navLinks } from "@/config/siteConfig";
+import { siteConfig, allNavLinks } from "@/config/siteConfig";
 import { BrandMotif } from "@/components/ui/BrandMotif";
+import { sedes } from "@/data/sedes";
 
 export function Footer() {
   return (
@@ -10,18 +11,27 @@ export function Footer() {
         <div>
           <div className="flex items-center gap-3">
             <img
-              src={siteConfig.logoSrc}
+              src={siteConfig.logos.cursos.src}
               alt=""
               aria-hidden="true"
-              className="h-10 w-auto rounded bg-white/95 p-1"
+              className="h-9 w-auto rounded bg-white/95 p-1"
             />
-            <div>
-              <p className="font-display font-semibold">{siteConfig.shortName}</p>
-              <p className="text-sm text-teal-100/80">{siteConfig.level}</p>
-            </div>
+            <img
+              src={siteConfig.logos.nivelSuperior.src}
+              alt=""
+              aria-hidden="true"
+              className="h-9 w-auto rounded bg-white/95 p-1"
+            />
           </div>
-          <p className="mt-4 max-w-xs text-sm leading-relaxed text-teal-100/80">
-            {siteConfig.location.city}, {siteConfig.location.province}, {siteConfig.location.country}.
+          <p className="mt-4 font-display font-semibold">{siteConfig.shortName}</p>
+          <p className="mt-1 max-w-xs text-sm leading-relaxed text-teal-100/80">
+            Cursos y Nivel Superior · {siteConfig.location.province}, {siteConfig.location.country}
+          </p>
+          <p className="mt-2 text-sm text-teal-100/80">
+            Sedes: {sedes.map((s) => s.name).join(" y ")} —{" "}
+            <Link to="/sedes" className="underline hover:text-gold-500">
+              ver direcciones
+            </Link>
           </p>
         </div>
 
@@ -30,7 +40,7 @@ export function Footer() {
             Secciones
           </h2>
           <ul className="mt-4 grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
-            {navLinks.map((link) => (
+            {allNavLinks.map((link) => (
               <li key={link.to}>
                 <Link to={link.to} className="text-teal-50 hover:text-gold-500">
                   {link.label}
@@ -47,7 +57,11 @@ export function Footer() {
           <ul className="mt-4 space-y-3 text-sm">
             <li className="flex items-start gap-2">
               <MapPin size={18} className="mt-0.5 shrink-0 text-gold-500" aria-hidden="true" />
-              <span>{siteConfig.location.address}</span>
+              <span>
+                <Link to="/sedes" className="hover:text-gold-500">
+                  Ver sedes y direcciones
+                </Link>
+              </span>
             </li>
             <li className="flex items-center gap-2">
               <Phone size={18} className="shrink-0 text-gold-500" aria-hidden="true" />

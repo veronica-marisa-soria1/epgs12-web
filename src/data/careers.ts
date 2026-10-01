@@ -17,6 +17,7 @@ export const careers: Career[] = [
       "Administra bases de datos relacionales",
       "Trabaja con metodologías ágiles en equipos de desarrollo",
     ],
+    sedes: ["Resistencia", "Quitilipi"],
   },
   {
     slug: "administracion-ejemplo",
@@ -30,6 +31,7 @@ export const careers: Career[] = [
       "Gestiona procesos administrativos y contables",
       "Participa en la planificación de organizaciones",
     ],
+    sedes: ["Resistencia"],
     isExample: true,
   },
   {
@@ -41,6 +43,7 @@ export const careers: Career[] = [
     shortDescription:
       "Contenido de ejemplo para mostrar una tercera carrera en la grilla. Reemplazar por una oferta real de la institución.",
     profile: ["Brinda cuidados de enfermería en distintos niveles de atención"],
+    sedes: ["Quitilipi"],
     isExample: true,
   },
 ];

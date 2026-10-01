@@ -1,8 +1,10 @@
 # Sitio institucional — E.P.G.S. N°12 "Juan Domingo Perón"
 
 Frontend del sitio institucional, construido con **React + TypeScript + Vite + Tailwind CSS**.
-Primera versión enfocada en un frontend funcional, con la estructura lista para conectar
-un backend en **Django REST Framework + PostgreSQL** más adelante.
+La institución tiene dos ofertas educativas — **Nivel Superior** (tecnicaturas de 3 años)
+y **Cursos** (formación corta) — cada una con su propio logo, y dos sedes (Resistencia y
+Quitilipi). El sitio arranca en un portal (`/`) donde se elige a cuál de las dos entrar.
+Estructura lista para conectar un backend en **Django REST Framework + PostgreSQL**.
 
 ## Cómo correrlo
 
@@ -19,14 +21,20 @@ Requiere Node.js 18 o superior.
 
 ```
 src/
-  components/   Componentes reutilizables (layout, ui, y por sección)
-  config/       siteConfig.ts — textos, contacto, redes y ruta del logo
-  data/         Contenido de ejemplo (carreras, noticias, autoridades, galería...)
+  components/   Componentes reutilizables (layout, ui, careers, courses, gallery...)
+  config/       siteConfig.ts — textos, contacto, redes y rutas de los dos logos
+  data/         Contenido de ejemplo (carreras, cursos, sedes, noticias, autoridades...)
   hooks/        usePageMeta — título y descripción SEO por página
-  pages/        Una página por sección (Home, Careers, News, etc.)
+  pages/        Una página por sección. Home = portal; NivelSuperiorHome = landing
+                de esa oferta; Cursos/CourseEnrollment = la otra oferta; Sedes,
+                About, News, Authorities, Gallery, Contact = institucionales
   services/     api.ts — capa de datos, hoy en memoria, lista para el backend
   types/        Modelos de datos compartidos (TypeScript)
 ```
+
+**Rutas:** `/` (portal) · `/nivel-superior`, `/carreras`, `/planes-de-estudio`,
+`/inscripciones` (Nivel Superior) · `/cursos`, `/cursos/inscripcion` (Cursos) ·
+`/nosotros`, `/sedes`, `/noticias`, `/autoridades`, `/galeria`, `/contacto` (compartidas).
 
 ## Qué es contenido de ejemplo
 
@@ -34,10 +42,12 @@ Todo lo que no pude confirmar con datos reales está marcado con `isExample: tru
 en `src/data/*.ts` y se muestra en el sitio con una insignia **"Ejemplo"** visible,
 para que sea imposible publicarlo por error sin notarlo. Antes de publicar el sitio:
 
-- **`src/config/siteConfig.ts`** — completar dirección real, teléfono, email y redes
-  (están marcados `// EJEMPLO`).
+- **`src/config/siteConfig.ts`** — completar teléfono, email y redes (marcados `// EJEMPLO`).
+- **`src/data/sedes.ts`** — completar la dirección real de Resistencia y Quitilipi.
 - **`src/data/careers.ts`** — reemplazar o quitar las 2 carreras de ejemplo; la
-  Tecnicatura Superior en Desarrollo de Software ya tiene datos reales.
+  Tecnicatura Superior en Desarrollo de Software ya tiene datos reales. El array
+  `sedes` de cada carrera es un supuesto (confirmar en qué sede se dicta cada una).
+- **`src/data/courses.ts`** — no hay cursos reales cargados todavía; los 3 son de ejemplo.
 - **`src/data/studyPlans.ts`** — la carga horaria y materias son ilustrativas.
 - **`src/data/news.ts`**, **`authorities.ts`** — reemplazar por contenido real
   (las autoridades, sobre todo, conviene confirmarlas con la dirección antes de publicar).
@@ -50,11 +60,12 @@ para que sea imposible publicarlo por error sin notarlo. Antes de publicar el si
 
 - **Colores de marca**: un solo lugar, `tailwind.config.js` → `theme.colors`
   (`teal`, `gold`, `clay`). Estos tres tonos se extrajeron del isologo institucional.
-- **Logo**: reemplazar `public/logo.webp` (mismo nombre) o cambiar la ruta en
-  `siteConfig.logoSrc`.
+- **Logos**: reemplazar `public/logo.webp` (Nivel Superior) y `public/logo-cursos.webp`
+  (Cursos), mismos nombres, o cambiar las rutas en `siteConfig.logos`.
 - **Tipografías**: `Space Grotesk` (títulos) + `IBM Plex Sans` (texto), cargadas
   desde Google Fonts en `index.html`.
-- **Secciones del menú**: `navLinks` en `src/config/siteConfig.ts`.
+- **Secciones del menú**: `nivelSuperiorNavLinks`, `cursosNavLinks` y `sharedNavLinks`
+  en `src/config/siteConfig.ts` (el Navbar los agrupa en tres bloques).
 
 ## Conectar el backend (Django REST Framework)
 
@@ -73,15 +84,18 @@ formularios de Inscripciones y Contacto) usa el backend real en vez de
 así que se puede seguir trabajando en el frontend sin tener el backend
 corriendo.
 
-| Función            | Endpoint                 |
-| ------------------- | ------------------------- |
-| `fetchCareers`      | `GET /api/careers/`       |
-| `fetchStudyPlans`   | `GET /api/study-plans/`   |
-| `fetchNews`         | `GET /api/news/`          |
-| `fetchAuthorities`  | `GET /api/authorities/`   |
-| `fetchGallery`      | `GET /api/gallery/`       |
-| `submitEnrollment`  | `POST /api/enrollments/`  |
-| `submitContact`     | `POST /api/contact-messages/` |
+| Función                  | Endpoint                       |
+| ------------------------- | -------------------------------- |
+| `fetchSedes`              | `GET /api/sedes/`                |
+| `fetchCareers`            | `GET /api/careers/`              |
+| `fetchStudyPlans`         | `GET /api/study-plans/`          |
+| `fetchCourses`            | `GET /api/courses/`              |
+| `fetchNews`               | `GET /api/news/`                 |
+| `fetchAuthorities`        | `GET /api/authorities/`          |
+| `fetchGallery`            | `GET /api/gallery/`              |
+| `submitEnrollment`        | `POST /api/enrollments/`         |
+| `submitCourseEnrollment`  | `POST /api/course-enrollments/`  |
+| `submitContact`           | `POST /api/contact-messages/`    |
 
 Para un panel administrativo, el Django admin ya cubre la necesidad (altas/bajas
 de carreras, noticias, autoridades, subir fotos a la galería) sin desarrollo

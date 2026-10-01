@@ -1,8 +1,10 @@
+import { Link } from "react-router-dom";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Section } from "@/components/ui/Section";
 import { ExampleBadge } from "@/components/ui/ExampleBadge";
 import { usePageMeta } from "@/hooks/usePageMeta";
 import { siteConfig } from "@/config/siteConfig";
+import { sedes } from "@/data/sedes";
 
 const values = [
   {
@@ -25,7 +27,7 @@ const values = [
 export default function About() {
   usePageMeta(
     "Nosotros",
-    `Historia, misión y valores de ${siteConfig.fullName}, institución de ${siteConfig.level.toLowerCase()} en ${siteConfig.location.city}.`
+    `Historia, misión y valores de ${siteConfig.fullName}, con Nivel Superior y Cursos en ${sedes.map((s) => s.name).join(" y ")}.`
   );
 
   return (
@@ -45,7 +47,7 @@ export default function About() {
             <p className="mt-4 max-w-prose leading-relaxed text-ink/80">
               Contenido de ejemplo. Este espacio está pensado para contar el origen de la
               institución, sus hitos más importantes y su rol en la comunidad educativa de{" "}
-              {siteConfig.location.city} y la región. Reemplazar por el texto institucional
+              {siteConfig.location.province} y la región. Reemplazar por el texto institucional
               real antes de publicar el sitio.
             </p>
           </div>
@@ -54,13 +56,16 @@ export default function About() {
             <h2 className="text-lg">Datos institucionales</h2>
             <dl className="mt-4 space-y-3 text-sm">
               <div>
-                <dt className="font-semibold text-ink">Nivel</dt>
-                <dd className="text-ink/70">{siteConfig.level}</dd>
+                <dt className="font-semibold text-ink">Oferta educativa</dt>
+                <dd className="text-ink/70">Nivel Superior y Cursos</dd>
               </div>
               <div>
-                <dt className="font-semibold text-ink">Ubicación</dt>
+                <dt className="font-semibold text-ink">Sedes</dt>
                 <dd className="text-ink/70">
-                  {siteConfig.location.city}, {siteConfig.location.province}
+                  <Link to="/sedes" className="text-teal-700 hover:text-teal-900">
+                    {sedes.map((s) => s.name).join(" y ")}
+                  </Link>
+                  , {siteConfig.location.province}
                 </dd>
               </div>
               <div>

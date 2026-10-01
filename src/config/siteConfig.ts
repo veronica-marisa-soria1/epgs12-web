@@ -5,23 +5,25 @@
 // Los valores marcados con "// EJEMPLO" son placeholders: hay que
 // reemplazarlos por los datos reales antes de publicar el sitio.
 // Para cambiar los colores de marca, ver tailwind.config.js.
-// Para cambiar el logo, reemplazar /public/logo.webp (mismo nombre)
-// o actualizar la ruta acá abajo.
+// Para cambiar los logos, reemplazar /public/logo.webp (Nivel Superior)
+// y /public/logo-cursos.webp (Cursos), o actualizar las rutas acá abajo.
+//
+// La institución tiene dos ofertas educativas, cada una con su propio
+// logo, y dos sedes (ver src/data/sedes.ts): Resistencia y Quitilipi.
 // ──────────────────────────────────────────────────────────────────
 
 export const siteConfig = {
   shortName: "E.P.G.S. N°12",
   fullName: 'E.P.G.S. N°12 "Juan Domingo Perón"',
-  level: "Nivel Superior",
-  logoSrc: "/logo.webp",
+
+  logos: {
+    nivelSuperior: { src: "/logo.webp", alt: 'Logo de Nivel Superior — E.P.G.S. N°12 "Juan Domingo Perón"' },
+    cursos: { src: "/logo-cursos.webp", alt: 'Logo de Cursos — E.P.G.S. N°12 "Juan Domingo Perón"' },
+  },
 
   location: {
-    city: "Presidencia Roque Sáenz Peña",
     province: "Chaco",
     country: "Argentina",
-    // EJEMPLO — completar con la dirección real de la sede.
-    address: "Dirección a confirmar, Presidencia Roque Sáenz Peña, Chaco",
-    mapQuery: 'E.P.G.S. N°12 "Juan Domingo Perón" Presidencia Roque Sáenz Peña Chaco',
   },
 
   contact: {
@@ -43,14 +45,34 @@ export const siteConfig = {
   },
 } as const;
 
-export const navLinks = [
-  { to: "/", label: "Inicio" },
-  { to: "/nosotros", label: "Nosotros" },
+// Navegación agrupada en tres bloques: la oferta de Nivel Superior, la
+// oferta de Cursos, y las páginas institucionales que son comunes a
+// las dos (comparten sedes, noticias, autoridades, etc.)
+export const nivelSuperiorNavLinks = [
+  { to: "/nivel-superior", label: "Nivel Superior" },
   { to: "/carreras", label: "Carreras" },
   { to: "/planes-de-estudio", label: "Planes de estudio" },
   { to: "/inscripciones", label: "Inscripciones" },
+] as const;
+
+export const cursosNavLinks = [
+  { to: "/cursos", label: "Cursos" },
+  { to: "/cursos/inscripcion", label: "Inscripción a cursos" },
+] as const;
+
+export const sharedNavLinks = [
+  { to: "/nosotros", label: "Nosotros" },
+  { to: "/sedes", label: "Sedes" },
   { to: "/noticias", label: "Noticias" },
   { to: "/autoridades", label: "Autoridades" },
   { to: "/galeria", label: "Galería" },
   { to: "/contacto", label: "Contacto" },
+] as const;
+
+// Usado por el Footer para listar todo el mapa del sitio de una vez.
+export const allNavLinks = [
+  { to: "/", label: "Inicio" },
+  ...nivelSuperiorNavLinks,
+  ...cursosNavLinks,
+  ...sharedNavLinks,
 ] as const;

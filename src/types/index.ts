@@ -3,6 +3,15 @@
 // Framework (ver src/services/api.ts), para que cambiar de datos de
 // ejemplo a datos reales del backend no requiera tocar los componentes.
 
+export interface Sede {
+  slug: string;
+  name: string;
+  address: string;
+  phone?: string;
+  email?: string;
+  mapQuery: string;
+}
+
 export interface Career {
   slug: string;
   name: string;
@@ -11,6 +20,18 @@ export interface Career {
   modality: string;
   shortDescription: string;
   profile: string[];
+  sedes: string[];
+  isExample?: boolean;
+}
+
+export interface Course {
+  slug: string;
+  name: string;
+  durationValue: number;
+  durationUnit: "semanas" | "meses";
+  modality: string;
+  shortDescription: string;
+  sedes: string[];
   isExample?: boolean;
 }
 
@@ -63,6 +84,16 @@ export interface EnrollmentFormData {
   email: string;
   phone: string;
   careerSlug: string;
+  message: string;
+}
+
+export interface CourseEnrollmentFormData {
+  firstName: string;
+  lastName: string;
+  dni: string;
+  email: string;
+  phone: string;
+  courseSlug: string;
   message: string;
 }
 

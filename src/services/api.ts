@@ -13,14 +13,19 @@
 
 import type {
   Career,
+  Course,
+  Sede,
   StudyPlan,
   NewsItem,
   Authority,
   GalleryImage,
   EnrollmentFormData,
+  CourseEnrollmentFormData,
   ContactFormData,
 } from "@/types";
 import { careers } from "@/data/careers";
+import { courses } from "@/data/courses";
+import { sedes } from "@/data/sedes";
 import { studyPlans } from "@/data/studyPlans";
 import { news } from "@/data/news";
 import { authorities } from "@/data/authorities";
@@ -52,9 +57,19 @@ async function postJSON<TResponse, TBody>(path: string, body: TBody): Promise<TR
   return res.json();
 }
 
+export async function fetchSedes(): Promise<Sede[]> {
+  if (USE_MOCK_DATA) return delay(sedes);
+  return getJSON<Sede[]>("/api/sedes/");
+}
+
 export async function fetchCareers(): Promise<Career[]> {
   if (USE_MOCK_DATA) return delay(careers);
   return getJSON<Career[]>("/api/careers/");
+}
+
+export async function fetchCourses(): Promise<Course[]> {
+  if (USE_MOCK_DATA) return delay(courses);
+  return getJSON<Course[]>("/api/courses/");
 }
 
 export async function fetchStudyPlans(): Promise<StudyPlan[]> {
@@ -83,6 +98,15 @@ export async function submitEnrollment(data: EnrollmentFormData): Promise<{ ok: 
     return delay({ ok: true }, 400);
   }
   await postJSON("/api/enrollments/", data);
+  return { ok: true };
+}
+
+export async function submitCourseEnrollment(data: CourseEnrollmentFormData): Promise<{ ok: true }> {
+  if (USE_MOCK_DATA) {
+    console.info("[inscripción a curso] Formulario recibido (modo demo):", data);
+    return delay({ ok: true }, 400);
+  }
+  await postJSON("/api/course-enrollments/", data);
   return { ok: true };
 }
 
